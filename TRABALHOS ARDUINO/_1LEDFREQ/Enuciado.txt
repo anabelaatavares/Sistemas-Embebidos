@@ -1,1 +1,0 @@
- Fazer o esquema, circuito, algoritmo e programa que permita acender e apagar um led com uma frequência de 1Hz.  Fazer o esquema, circuito, algoritmo e programa que permita acender e apagar um led com uma frequência de 1Hz. 
