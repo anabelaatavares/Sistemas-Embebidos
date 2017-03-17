@@ -1,0 +1,1 @@
+Implemente um novo algoritmo, que não utilize o delay(), e permita que, em tempo real, o circuito reaja a uma alteração do interruptor ou da resistência variável.

@@ -1,0 +1,1 @@
+ Altere o circuito e o programa para inserir um botão de pressão que, quando premido, inverta o sentido com que os leds acendem.

@@ -1,0 +1,1 @@
+ Altere o circuito e o programa para controlar através de uma resistência variável o tempo que cada led deverá ficar aceso entre um mínimo de 50ms e um máximo de 3s Altere o circuito e o programa para controlar através de uma resistência variável o tempo que cada led deverá ficar aceso entre um mínimo de 50ms e um máximo de 3s

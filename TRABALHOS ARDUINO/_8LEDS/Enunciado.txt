@@ -1,0 +1,1 @@
+Fazer o esquema, circuito, algoritmo e programa que permita acender e apagar, sequencialmente, 1 de 8 leds. A cada momento apenas um led deverá estar aceso. Depois de acender o oitavo led deve voltar ao primeiro.

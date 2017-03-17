@@ -1,0 +1,1 @@
+Faça uma nova versão em que através de comandos enviados do PC possa controlar a direção com que os leds acendem e o tempo que cada um fica aceso

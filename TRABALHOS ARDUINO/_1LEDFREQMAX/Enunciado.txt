@@ -1,0 +1,1 @@
+ Determinar experimentalmente qual é a frequência máxima a que pode acender e apagar o led de forma a que consiga ver a sua cintilação.
