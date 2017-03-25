@@ -18,7 +18,9 @@ while True:
         print (inteiro)
 
         produto = flutuante * inteiro
+        print(produto)
+
         produtoEmBytes = bytearray(struct.pack("f", produto))
-        #produtoEmBytes.extend(format(13).encode("ascii"))
-        #print(produto)
-        ser.write(produtoEmBytes)
+        #print(produtoEmBytes)
+
+        ser.write('a')
