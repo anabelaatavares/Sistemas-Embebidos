@@ -1,6 +1,6 @@
 float flutuante = 2.3;
 int inteiro = 23;
-char sincro = ';';
+byte inicio = 32;
 long tempoAtual, tempoInicio;
 
 void setup() {
@@ -12,9 +12,9 @@ void loop() {
 
   if (tempoAtual - tempoInicio > 100) {
     tempoInicio = millis();
-    Serial.print(flutuante);
-    Serial.print(sincro);
-    Serial.print(inteiro);    
+    Serial.write(inicio);
+    Serial.write((char*) &flutuante, 4);    
+    Serial.write((char*) &inteiro, 2);
   }
 
 }

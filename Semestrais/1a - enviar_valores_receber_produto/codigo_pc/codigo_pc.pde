@@ -2,7 +2,8 @@ import processing.serial.*;     // import the Processing serial library
 import java.nio.ByteBuffer;
 
 Serial myPort;
-String pacote, valores, produtoEmString;
+String pacote, produtoEmString;
+String[] valores;
 float decimal, produto;
 int inteiro;
 

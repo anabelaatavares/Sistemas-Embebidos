@@ -1,13 +1,14 @@
 float flutuante = 2.3, produto = 0;
 int inteiro = 23, i = 0;
 char sincro = ';';
-long tempoAtual, tempoInicio;
-bool podeEnviar;
+long tempoAtual, tempoInicio, tempoFim, tempoTotal;
+bool podeEnviar = true;
 byte mByte;
 byte bytesRecebidos[20];
+byte inicio = 32;
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
 }
 
 void loop() {
@@ -15,11 +16,12 @@ void loop() {
 
   if (tempoAtual - tempoInicio > 100 && podeEnviar) {
     tempoInicio = millis();
-    Serial.print(flutuante);
-    Serial.print(sincro);
-    Serial.print(inteiro);
-    Serial.print(sincro);
-    Serial.print(produto);
+
+    Serial.write(inicio);
+    Serial.write((char*) &flutuante, 4);    
+    Serial.write((char*) &inteiro, 2);
+    Serial.write((char*) &produto, 4);        
+    Serial.write((char*) &tempoTotal, 4);
     podeEnviar = false;
   }
 
@@ -34,7 +36,9 @@ void loop() {
       produto = atof((char*)bytesRecebidos);
       i = 0;
 
+      tempoFim = millis();
+      tempoTotal = tempoFim - tempoInicio;
       podeEnviar = true;
     }
-
+  }
 }

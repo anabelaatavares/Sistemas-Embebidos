@@ -2,7 +2,7 @@ float flutuante = 2.3, produto = 0;
 int inteiro = 23, i = 0;
 char sincro = ';';
 long tempoAtual, tempoInicio, tempoFim, tempoTotal;
-bool podeEnviar;
+bool podeEnviar = true;
 byte mByte;
 byte bytesRecebidos[20];
 
@@ -22,7 +22,7 @@ void loop() {
     Serial.print(sincro);
     Serial.print(produto);
     Serial.print(sincro);
-    Serial.print(tempoTotal);
+    Serial.println(tempoTotal);
     podeEnviar = false;
   }
 
@@ -41,5 +41,5 @@ void loop() {
       tempoTotal = tempoFim - tempoInicio;
       podeEnviar = true;
     }
-
+  }
 }

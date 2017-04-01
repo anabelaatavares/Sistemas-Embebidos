@@ -2,22 +2,23 @@ import processing.serial.*;     // import the Processing serial library
 import java.nio.ByteBuffer;
 
 Serial myPort;
-String pacote, valores, produtoEmString;
+String pacote, produtoEmString;
 float decimal, produto;
 int inteiro;
 PrintWriter fileOutput;
+String[] valores;
 
 void setup() {
-  myPort = new Serial(this, Serial.list()[0], 9600);
+  myPort = new Serial(this, Serial.list()[0], 115200);
   myPort.bufferUntil('\n');
-  fileOutput = createWriter("C:\\fileoutput\\tempos.csv");
-  fileOutput.println("baud rate 9600");
+  fileOutput = createWriter("C:\\fileoutput\\temposv.csv");
+  fileOutput.println("baud rate 115200");
 }
 
 void draw() {
 
   pacote = myPort.readStringUntil('\n');
-  pacote = trim(myString);
+  pacote = trim(pacote);
 
   if (pacote != null) {
     valores = split(pacote, ';');
@@ -27,8 +28,8 @@ void draw() {
     produtoEmString =  Float.toString(produto);
     myPort.write(produtoEmString);
     myPort.write('\n');
-    output.println(valores[3]);
-    output.flush();
+    fileOutput.println(valores[3]);
+    fileOutput.flush();
 
     println(pacote);
 
