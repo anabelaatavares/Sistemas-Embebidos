@@ -40,17 +40,28 @@ void serialEvent(Serial p) {
         break;
       case recebeDados:
         bytesRecebidos[contador++] = bytesTemp[i];
-        if (contador == 6) {
+        if (contador == 10) {          
+          println(bytesRecebidos);
           estado = espera32;
           int intbit = 0;
           intbit = (bytesRecebidos[3]<<24)|(bytesRecebidos[2]<<16)|(bytesRecebidos[1]<<8)|bytesRecebidos[0];
           float f = Float.intBitsToFloat(intbit);
           int inte = bytesRecebidos[4] + (bytesRecebidos[5] << 8);
           float produto = f * inte;
-          produtoEmString = Float.toString(produto);
-          myPort.write(produtoEmString);
+
+          myPort.write(convertToByteArray(produto));
+          myPort.write(convertToByteArray(32));
+          //int inTempo = 0;
+          //inTempo = (bytesRecebidos[10]<<24)|(bytesRecebidos[11]<<16)|(bytesRecebidos[12]<<8)|bytesRecebidos[13];
         }
         break;
       }
     }
+}
+
+public static byte[] convertToByteArray(float value) {
+  byte[] bytes = new byte[8];
+  ByteBuffer buffer = ByteBuffer.allocate(bytes.length);
+  buffer.putDouble(value);
+  return buffer.array();
 }
