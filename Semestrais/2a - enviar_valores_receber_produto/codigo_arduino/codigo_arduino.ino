@@ -14,30 +14,11 @@ void setup() {
 void loop() {
   tempoAtual = millis();
 
-  if (tempoAtual - tempoInicio > 100 && podeEnviar) {
+  if (tempoAtual - tempoInicio > 100) {
     tempoInicio = millis();
 
     Serial.write(inicio);
     Serial.write((char*) &flutuante, 4);    
-    Serial.write((char*) &inteiro, 2);
-    Serial.write((char*) &produto, 4);        
-    podeEnviar = false;
-  }
-
-  if (Serial.available() > 0) {
-    mByte = Serial.read();
-
-    if (mByte != '\n') {
-      bytesRecebidos[i] = mByte;
-      i++;
-    } else {
-      bytesRecebidos[i] = 0;
-      produto = atof((char*)bytesRecebidos);
-      i = 0;
-
-      tempoFim = millis();
-      tempoTotal = tempoFim - tempoInicio;
-      podeEnviar = true;
-    }
+    Serial.write((char*) &inteiro, 2);            
   }
 }
