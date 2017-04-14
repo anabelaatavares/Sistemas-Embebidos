@@ -1,4 +1,4 @@
-float flutuante = 2.3, produto = 0;
+float flutuante = 2.3, produto = 0.0;
 int inteiro = 23, i = 0;
 char sincro = ';';
 long tempoAtual, tempoInicio, tempoFim, tempoTotal = 0;
@@ -21,6 +21,7 @@ void loop() {
     Serial.write((char*) &flutuante, 4);
     Serial.write((char*) &inteiro, 2);
     Serial.write((char*) &produto, 4);
+    Serial.write((char*) &tempoTotal, 4);
     podeEnviar = false;
   }
 
@@ -31,8 +32,8 @@ void loop() {
       bytesRecebidos[i] = mByte;
       i++;
     } else {
-      bytesRecebidos[i] = 0;
       produto = *((float*)(bytesRecebidos));
+      bytesRecebidos[i] = 0;
       i = 0;
 
       tempoFim = millis();
