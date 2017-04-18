@@ -23,6 +23,8 @@ void loop() {
     Serial.write((char*) &produto, 4);
     Serial.write((char*) &tempoTotal, 4);
     podeEnviar = false;
+    
+
   }
 
   if (Serial.available() > 0) {
@@ -32,13 +34,14 @@ void loop() {
       bytesRecebidos[i] = mByte;
       i++;
     } else {
+      //produto = atof((char*)(bytesRecebidos));
       produto = *((float*)(bytesRecebidos));
       bytesRecebidos[i] = 0;
       i = 0;
 
       tempoFim = millis();
       tempoTotal = tempoFim - tempoInicio;
-      podeEnviar = true;x
+      podeEnviar = true;
     }
   }
 }
