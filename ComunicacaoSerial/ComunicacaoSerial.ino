@@ -1,26 +1,5 @@
-/*
-  Multple Serial test
-
- Receives from the main serial port, sends to the others.
- Receives from serial port 1, sends to the main serial (Serial 0).
-
- This example works only with boards with more than one serial like Arduino Mega, Due, Zero etc
-
- The circuit:
- * Any serial device attached to Serial port 1
- * Serial monitor open on Serial port 0:
-
- created 30 Dec. 2008
- modified 20 May 2012
- by Tom Igoe & Jed Roach
- modified 27 Nov 2015
- by Arturo Guadalupi
-
- This example code is in the public domain.
-
- */
 byte inicio = 32;
-int modo = 0;
+int modo = 0, modoAtual = 1;
 long tempoAtual, tempoInicio;
 int botaoGraves = 13;//cabo branco
 int botaoMedios = 12;//cabo laranja
@@ -42,7 +21,7 @@ long valorRecebido;
 void setup() {
   // initialize both serial ports:
   Serial.begin(9600);
-  
+
   Serial1.begin(9600);
   pinMode(botaoGraves, INPUT);
   pinMode(botaoMedios, INPUT);
@@ -59,41 +38,44 @@ void setup() {
 }
 
 void loop() {
-//   read from port 1, send to port 0:
+  //   read from port 1, send to port 0:
   if (Serial1.available()) {
     int mByte = Serial1.read();
     abreLatas(mByte);
   }
-//
-//  // read from port 0, send to port 1:
-//  if (Serial.available()) {
-//    int inByte = Serial.read();
-//    Serial1.write(inByte);
-//  }
+  //
+  //  // read from port 0, send to port 1:
+  //  if (Serial.available()) {
+  //    int inByte = Serial.read();
+  //    Serial1.write(inByte);
+  //  }
 
   tempoAtual = millis();
 
-  if (tempoAtual - tempoInicio > 1000) {
-    tempoInicio = millis();   
-    estadoBotaoGraves = digitalRead(botaoGraves);
-    estadoBotaoMedios = digitalRead(botaoMedios);
-    estadoBotaoAgudos = digitalRead(botaoAgudos);    
-    
-    //se pressionado (HIGH)
-    if(estadoBotaoGraves == HIGH) {      
-      modo = 10;
-    } else if ( estadoBotaoMedios == HIGH) {
-      modo = 20;
-    } else if ( estadoBotaoAgudos == HIGH) {
-      modo = 30;
-    } else {
-      modo = 0;
-      blackout();
-      equalizer(valorRecebido);
-    }
-    Serial1.write(inicio);
-    Serial1.write((char*) &modo, 2);
+  //if (tempoAtual - tempoInicio > 100) {
+  //tempoInicio = millis();
+  estadoBotaoGraves = digitalRead(botaoGraves);
+  estadoBotaoMedios = digitalRead(botaoMedios);
+  estadoBotaoAgudos = digitalRead(botaoAgudos);
+
+  modo = modoAtual;
+
+  //se pressionado (HIGH)
+  if (estadoBotaoGraves == HIGH) {
+    modoAtual = 10;
+  } else if ( estadoBotaoMedios == HIGH) {
+    modoAtual = 20;
+  } else if ( estadoBotaoAgudos == HIGH) {
+    modoAtual = 30;
+  } else {
+    modoAtual = 0;
   }
+
+  if (modo != modoAtual) {
+    Serial1.write(inicio);
+    Serial1.write((char*) &modoAtual, 2);
+  }
+  //}
 }
 
 void acenderLed(int varLed) {
@@ -109,36 +91,33 @@ void abreLatas(int mByte) {
   static int i = 0;
   static boolean estado = ESPERA32;
 
-  switch(estado) {
+  switch (estado) {
     case ESPERA32:
-      if(mByte == 32) {
+      if (mByte == 32) {
         estado = ESPERADADOS;
-        i = 0;      
+        i = 0;
       }
       break;
     case ESPERADADOS:
       bytesRecebidos[i] = mByte;
       i++;
-      if(i == 4) {
+      if (i == 4) {
         valorRecebido = *((long*) (bytesRecebidos));
-        Serial.println(valorRecebido);
+      } else if (i == 5) {
+        byte checksum = bytesRecebidos[4];
+        int soma = 0;
+        for (int i = 0; i < 4; i++) {
+          soma += bytesRecebidos[i];
+        }
+        if (soma == checksum) {          
+          blackout();
+          equalizer(valorRecebido);
+        }
         estado = ESPERA32;
       }
       break;
   }
-  
-  /*Serial.println(mByte);
-  if(mByte != 32) {
-    bytesRecebidos[i] = mByte;
-    i++;
-  } else {      
-    valorRecebido = bytesRecebidos;
-    Serial.println(valorRecebido);
-    bytesRecebidos[i] = 0;
-    i = 0;      
-    //podeEnviar = true;
-  }  */
-  
+
 }
 
 void blackout() {
@@ -154,24 +133,24 @@ void blackout() {
 
 void equalizer(int vr) {
   //todo ajustar
-int  limiteGraves = 50;
-int  limiteMedios = 100;
+  int  limiteGraves = 50;
+  int  limiteMedios = 100;
 
-  if(vr >= 0) {
+  if (vr >= 0) {
     acenderLed(ledVerde1);
-    if(vr > limiteGraves / 3) {
+    if (vr > limiteGraves / 3) {
       acenderLed(ledVerde2);
-      if(vr > (limiteGraves / 3) * 2) {
+      if (vr > (limiteGraves / 3) * 2) {
         acenderLed(ledVerde3);
-        if(vr > limiteGraves) {
+        if (vr > limiteGraves) {
           acenderLed(ledAmarelo1);
-          if(vr > limiteMedios / 3) {
+          if (vr > limiteMedios / 3) {
             acenderLed(ledAmarelo2);
-            if(vr > (limiteMedios / 3) * 2) {
+            if (vr > (limiteMedios / 3) * 2) {
               acenderLed(ledAmarelo3);
-              if(vr > limiteMedios) {
+              if (vr > limiteMedios) {
                 acenderLed(ledVermelho1);
-                if(vr > limiteMedios * 2) {
+                if (vr > limiteMedios * 2) {
                   acenderLed(ledVermelho2);
                 }
               }
