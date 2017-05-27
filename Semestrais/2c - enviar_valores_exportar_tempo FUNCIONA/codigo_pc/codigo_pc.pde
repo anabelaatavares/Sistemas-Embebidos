@@ -59,7 +59,7 @@ void serialEvent(Serial p) {
           ProdutoRecebido = Float.intBitsToFloat(inFloat);
           //Tempo
           inTempo = bytesRecebidos[10] + (bytesRecebidos[11]<<8) + (bytesRecebidos[12]<<16) + (bytesRecebidos[13]<<24);       
-          println(bytesRecebidos);
+          //println(bytesRecebidos);
           println(decimal + " " + inte + " " + ProdutoRecebido  + " " + inTempo);
           fileOutput.println(inTempo);
           fileOutput.flush();

@@ -14,7 +14,7 @@ void loop() {
     tempoInicio = millis();
     Serial.print(flutuante);
     Serial.print(sincro);
-    Serial.print(inteiro);    
+    Serial.println(inteiro);    
   }
 
 }
