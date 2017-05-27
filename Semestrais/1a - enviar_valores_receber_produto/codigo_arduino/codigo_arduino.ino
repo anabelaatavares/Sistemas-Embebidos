@@ -19,7 +19,7 @@ void loop() {
     Serial.print(sincro);
     Serial.print(inteiro);
     Serial.print(sincro);
-    Serial.print(produto);
+    Serial.println(produto);
     podeEnviar = false;
   }
 
