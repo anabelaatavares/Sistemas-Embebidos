@@ -34,8 +34,9 @@ int ledAmarelo2 = 4;
 int ledAmarelo3 = 3;
 int ledVermelho1 = 2;
 int ledVermelho2 = 9;
-int valorRecebido;
-
+long valorRecebido;
+#define ESPERA32 0
+#define ESPERADADOS 1
 
 
 void setup() {
@@ -79,7 +80,7 @@ void loop() {
     estadoBotaoAgudos = digitalRead(botaoAgudos);    
     
     //se pressionado (HIGH)
-    if( estadoBotaoGraves == HIGH) {      
+    if(estadoBotaoGraves == HIGH) {      
       modo = 10;
     } else if ( estadoBotaoMedios == HIGH) {
       modo = 20;
@@ -105,19 +106,38 @@ void apagarLed(int varLed) {
 
 void abreLatas(int mByte) {
   byte bytesRecebidos[20];
-  int i = 0;
+  static int i = 0;
+  static boolean estado = ESPERA32;
+
+  switch(estado) {
+    case ESPERA32:
+      if(mByte == 32) {
+        estado = ESPERADADOS;
+        i = 0;      
+      }
+      break;
+    case ESPERADADOS:
+      bytesRecebidos[i] = mByte;
+      i++;
+      if(i == 4) {
+        valorRecebido = *((long*) (bytesRecebidos));
+        Serial.println(valorRecebido);
+        estado = ESPERA32;
+      }
+      break;
+  }
   
-  Serial.println(mByte);
+  /*Serial.println(mByte);
   if(mByte != 32) {
     bytesRecebidos[i] = mByte;
     i++;
   } else {      
-    valorRecebido = bytesRecebidos[i];
+    valorRecebido = bytesRecebidos;
     Serial.println(valorRecebido);
     bytesRecebidos[i] = 0;
     i = 0;      
     //podeEnviar = true;
-  }  
+  }  */
   
 }
 
