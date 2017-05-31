@@ -1,5 +1,5 @@
 byte inicio = 32;
-int modo = 0;
+int modo = 0, modoAtual = 1;
 long tempoAtual, tempoInicio;
 int botaoGraves = 13;//cabo branco
 int botaoMedios = 12;//cabo laranja
@@ -13,8 +13,9 @@ int ledAmarelo2 = 4;
 int ledAmarelo3 = 3;
 int ledVermelho1 = 2;
 int ledVermelho2 = 9;
-int valorRecebido;
-
+long valorRecebido;
+#define ESPERA32 0
+#define ESPERADADOS 1
 
 
 void setup() {
@@ -42,6 +43,7 @@ void loop() {
     int mByte = Serial1.read();
     abreLatas(mByte);
   }
+<<<<<<< HEAD
 
   tempoAtual = millis();
 
@@ -63,9 +65,41 @@ void loop() {
       blackout();
       equalizer(valorRecebido);
     }
-    Serial1.write(inicio);
-    Serial1.write((char*) &modo, 2);
+=======
+  //
+  //  // read from port 0, send to port 1:
+  //  if (Serial.available()) {
+  //    int inByte = Serial.read();
+  //    Serial1.write(inByte);
+  //  }
+
+  tempoAtual = millis();
+
+  //if (tempoAtual - tempoInicio > 100) {
+  //tempoInicio = millis();
+  estadoBotaoGraves = digitalRead(botaoGraves);
+  estadoBotaoMedios = digitalRead(botaoMedios);
+  estadoBotaoAgudos = digitalRead(botaoAgudos);
+
+  modo = modoAtual;
+
+  //se pressionado (HIGH)
+  if (estadoBotaoGraves == HIGH) {
+    modoAtual = 10;
+  } else if ( estadoBotaoMedios == HIGH) {
+    modoAtual = 20;
+  } else if ( estadoBotaoAgudos == HIGH) {
+    modoAtual = 30;
+  } else {
+    modoAtual = 0;
   }
+
+  if (modo != modoAtual) {
+>>>>>>> 48b5bebc80904cc75abb0db757f34f2b94054773
+    Serial1.write(inicio);
+    Serial1.write((char*) &modoAtual, 2);
+  }
+  //}
 }
 
 void acenderLed(int varLed) {
@@ -78,6 +112,7 @@ void apagarLed(int varLed) {
 
 void abreLatas(int mByte) {
   byte bytesRecebidos[20];
+<<<<<<< HEAD
   int i = 0;
 
   Serial.println(mByte);
@@ -89,6 +124,36 @@ void abreLatas(int mByte) {
     Serial.println(valorRecebido);
     bytesRecebidos[i] = 0;
     i = 0;
+=======
+  static int i = 0;
+  static boolean estado = ESPERA32;
+
+  switch (estado) {
+    case ESPERA32:
+      if (mByte == 32) {
+        estado = ESPERADADOS;
+        i = 0;
+      }
+      break;
+    case ESPERADADOS:
+      bytesRecebidos[i] = mByte;
+      i++;
+      if (i == 4) {
+        valorRecebido = *((long*) (bytesRecebidos));
+      } else if (i == 5) {
+        byte checksum = bytesRecebidos[4];
+        int soma = 0;
+        for (int i = 0; i < 4; i++) {
+          soma += bytesRecebidos[i];
+        }
+        if (soma == checksum) {          
+          blackout();
+          equalizer(valorRecebido);
+        }
+        estado = ESPERA32;
+      }
+      break;
+>>>>>>> 48b5bebc80904cc75abb0db757f34f2b94054773
   }
 
 }
