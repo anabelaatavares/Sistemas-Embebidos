@@ -1,24 +1,3 @@
-/*
-  Multple Serial test
-
- Receives from the main serial port, sends to the others.
- Receives from serial port 1, sends to the main serial (Serial 0).
-
- This example works only with boards with more than one serial like Arduino Mega, Due, Zero etc
-
- The circuit:
- * Any serial device attached to Serial port 1
- * Serial monitor open on Serial port 0:
-
- created 30 Dec. 2008
- modified 20 May 2012
- by Tom Igoe & Jed Roach
- modified 27 Nov 2015
- by Arturo Guadalupi
-
- This example code is in the public domain.
-
- */
 byte inicio = 32;
 int modo = 0;
 long tempoAtual, tempoInicio;
@@ -41,7 +20,7 @@ int valorRecebido;
 void setup() {
   // initialize both serial ports:
   Serial.begin(9600);
-  
+
   Serial1.begin(9600);
   pinMode(botaoGraves, INPUT);
   pinMode(botaoMedios, INPUT);
@@ -58,28 +37,22 @@ void setup() {
 }
 
 void loop() {
-//   read from port 1, send to port 0:
+  //   read from port 1, send to port 0:
   if (Serial1.available()) {
     int mByte = Serial1.read();
     abreLatas(mByte);
   }
-//
-//  // read from port 0, send to port 1:
-//  if (Serial.available()) {
-//    int inByte = Serial.read();
-//    Serial1.write(inByte);
-//  }
 
   tempoAtual = millis();
 
   if (tempoAtual - tempoInicio > 1000) {
-    tempoInicio = millis();   
+    tempoInicio = millis();
     estadoBotaoGraves = digitalRead(botaoGraves);
     estadoBotaoMedios = digitalRead(botaoMedios);
-    estadoBotaoAgudos = digitalRead(botaoAgudos);    
-    
+    estadoBotaoAgudos = digitalRead(botaoAgudos);
+
     //se pressionado (HIGH)
-    if( estadoBotaoGraves == HIGH) {      
+    if ( estadoBotaoGraves == HIGH) {
       modo = 10;
     } else if ( estadoBotaoMedios == HIGH) {
       modo = 20;
@@ -106,19 +79,18 @@ void apagarLed(int varLed) {
 void abreLatas(int mByte) {
   byte bytesRecebidos[20];
   int i = 0;
-  
+
   Serial.println(mByte);
-  if(mByte != 32) {
+  if (mByte != 32) {
     bytesRecebidos[i] = mByte;
     i++;
-  } else {      
+  } else {
     valorRecebido = bytesRecebidos[i];
     Serial.println(valorRecebido);
     bytesRecebidos[i] = 0;
-    i = 0;      
-    //podeEnviar = true;
-  }  
-  
+    i = 0;
+  }
+
 }
 
 void blackout() {
@@ -134,24 +106,24 @@ void blackout() {
 
 void equalizer(int vr) {
   //todo ajustar
-int  limiteGraves = 50;
-int  limiteMedios = 100;
+  int  limiteGraves = 50;
+  int  limiteMedios = 100;
 
-  if(vr >= 0) {
+  if (vr >= 0) {
     acenderLed(ledVerde1);
-    if(vr > limiteGraves / 3) {
+    if (vr > limiteGraves / 3) {
       acenderLed(ledVerde2);
-      if(vr > (limiteGraves / 3) * 2) {
+      if (vr > (limiteGraves / 3) * 2) {
         acenderLed(ledVerde3);
-        if(vr > limiteGraves) {
+        if (vr > limiteGraves) {
           acenderLed(ledAmarelo1);
-          if(vr > limiteMedios / 3) {
+          if (vr > limiteMedios / 3) {
             acenderLed(ledAmarelo2);
-            if(vr > (limiteMedios / 3) * 2) {
+            if (vr > (limiteMedios / 3) * 2) {
               acenderLed(ledAmarelo3);
-              if(vr > limiteMedios) {
+              if (vr > limiteMedios) {
                 acenderLed(ledVermelho1);
-                if(vr > limiteMedios * 2) {
+                if (vr > limiteMedios * 2) {
                   acenderLed(ledVermelho2);
                 }
               }
