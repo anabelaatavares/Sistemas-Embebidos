@@ -1,0 +1,24 @@
+#Internal package file, do not edit.
+#Wed May 31 11:56:32 BST 2017
+2.base=D\:\\Users\\anabe\\Downloads\\FFTSpectralAnalyzer-master\\app\\build\\intermediates\\res\\resources-debug.ap_
+5.file=D\:\\Users\\anabe\\Downloads\\FFTSpectralAnalyzer-master\\app\\build\\intermediates\\res\\resources-debug.ap_\\res\\drawable-hdpi-v4\\ic_launcher.png
+5.set=ANDROID_RESOURCE
+3.base=D\:\\Users\\anabe\\Downloads\\FFTSpectralAnalyzer-master\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run_56e9f1d94a52f9dacf76353515d90ade77009e1a
+6.file=D\:\\Users\\anabe\\Downloads\\FFTSpectralAnalyzer-master\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run-bootstrap_0e96a113431988f4583f89d129d6f3437115f213\\classes.dex
+2.set=ANDROID_RESOURCE
+4.base=D\:\\Users\\anabe\\Downloads\\FFTSpectralAnalyzer-master\\app\\build\\intermediates\\res\\resources-debug.ap_
+count=7
+0.file=D\:\\Users\\anabe\\Downloads\\FFTSpectralAnalyzer-master\\app\\build\\intermediates\\res\\resources-debug.ap_\\AndroidManifest.xml
+5.base=D\:\\Users\\anabe\\Downloads\\FFTSpectralAnalyzer-master\\app\\build\\intermediates\\res\\resources-debug.ap_
+4.set=ANDROID_RESOURCE
+6.base=D\:\\Users\\anabe\\Downloads\\FFTSpectralAnalyzer-master\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run-bootstrap_0e96a113431988f4583f89d129d6f3437115f213
+1.file=D\:\\Users\\anabe\\Downloads\\FFTSpectralAnalyzer-master\\app\\build\\intermediates\\res\\resources-debug.ap_\\res\\drawable-mdpi-v4\\spectralicon.png
+1.set=ANDROID_RESOURCE
+2.file=D\:\\Users\\anabe\\Downloads\\FFTSpectralAnalyzer-master\\app\\build\\intermediates\\res\\resources-debug.ap_\\resources.arsc
+6.set=DEX
+0.base=D\:\\Users\\anabe\\Downloads\\FFTSpectralAnalyzer-master\\app\\build\\intermediates\\res\\resources-debug.ap_
+3.file=D\:\\Users\\anabe\\Downloads\\FFTSpectralAnalyzer-master\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run_56e9f1d94a52f9dacf76353515d90ade77009e1a\\classes.dex
+3.set=DEX
+1.base=D\:\\Users\\anabe\\Downloads\\FFTSpectralAnalyzer-master\\app\\build\\intermediates\\res\\resources-debug.ap_
+4.file=D\:\\Users\\anabe\\Downloads\\FFTSpectralAnalyzer-master\\app\\build\\intermediates\\res\\resources-debug.ap_\\res\\layout\\graficas.xml
+0.set=ANDROID_RESOURCE
