@@ -1,4 +1,0 @@
-#Wed May 31 11:56:32 BST 2017
-base.0=D\:\\Users\\anabe\\Downloads\\FFTSpectralAnalyzer-master\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\5\\slice_2
-renamed.0=classes.dex
-file.0=D\:\\Users\\anabe\\Downloads\\FFTSpectralAnalyzer-master\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\5\\slice_2\\classes.dex

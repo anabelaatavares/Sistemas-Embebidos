@@ -43,29 +43,6 @@ void loop() {
     int mByte = Serial1.read();
     abreLatas(mByte);
   }
-<<<<<<< HEAD
-
-  tempoAtual = millis();
-
-  if (tempoAtual - tempoInicio > 1000) {
-    tempoInicio = millis();
-    estadoBotaoGraves = digitalRead(botaoGraves);
-    estadoBotaoMedios = digitalRead(botaoMedios);
-    estadoBotaoAgudos = digitalRead(botaoAgudos);
-
-    //se pressionado (HIGH)
-    if ( estadoBotaoGraves == HIGH) {
-      modo = 10;
-    } else if ( estadoBotaoMedios == HIGH) {
-      modo = 20;
-    } else if ( estadoBotaoAgudos == HIGH) {
-      modo = 30;
-    } else {
-      modo = 0;
-      blackout();
-      equalizer(valorRecebido);
-    }
-=======
   //
   //  // read from port 0, send to port 1:
   //  if (Serial.available()) {
@@ -95,7 +72,6 @@ void loop() {
   }
 
   if (modo != modoAtual) {
->>>>>>> 48b5bebc80904cc75abb0db757f34f2b94054773
     Serial1.write(inicio);
     Serial1.write((char*) &modoAtual, 2);
   }
@@ -112,19 +88,6 @@ void apagarLed(int varLed) {
 
 void abreLatas(int mByte) {
   byte bytesRecebidos[20];
-<<<<<<< HEAD
-  int i = 0;
-
-  Serial.println(mByte);
-  if (mByte != 32) {
-    bytesRecebidos[i] = mByte;
-    i++;
-  } else {
-    valorRecebido = bytesRecebidos[i];
-    Serial.println(valorRecebido);
-    bytesRecebidos[i] = 0;
-    i = 0;
-=======
   static int i = 0;
   static boolean estado = ESPERA32;
 
@@ -153,7 +116,6 @@ void abreLatas(int mByte) {
         estado = ESPERA32;
       }
       break;
->>>>>>> 48b5bebc80904cc75abb0db757f34f2b94054773
   }
 
 }
@@ -199,4 +161,3 @@ void equalizer(int vr) {
     }
   }
 }
-

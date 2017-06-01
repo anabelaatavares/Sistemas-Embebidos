@@ -1,7 +1,0 @@
-#Wed May 31 11:56:32 BST 2017
-base.0=D\:\\Users\\anabe\\Downloads\\FFTSpectralAnalyzer-master\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run-bootstrap_0e96a113431988f4583f89d129d6f3437115f213
-renamed.1=classes.dex
-renamed.0=classes2.dex
-file.1=D\:\\Users\\anabe\\Downloads\\FFTSpectralAnalyzer-master\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run_56e9f1d94a52f9dacf76353515d90ade77009e1a\\classes.dex
-base.1=D\:\\Users\\anabe\\Downloads\\FFTSpectralAnalyzer-master\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run_56e9f1d94a52f9dacf76353515d90ade77009e1a
-file.0=D\:\\Users\\anabe\\Downloads\\FFTSpectralAnalyzer-master\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run-bootstrap_0e96a113431988f4583f89d129d6f3437115f213\\classes.dex
