@@ -161,4 +161,3 @@ void equalizer(int vr) {
     }
   }
 }
-

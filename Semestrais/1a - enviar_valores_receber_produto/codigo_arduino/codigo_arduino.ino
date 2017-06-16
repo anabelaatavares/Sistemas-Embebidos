@@ -2,7 +2,7 @@ float flutuante = 2.3, produto = 0;
 int inteiro = 23, i = 0;
 char sincro = ';';
 long tempoAtual, tempoInicio;
-bool podeEnviar;
+bool podeEnviar = true;
 byte mByte;
 byte bytesRecebidos[20];
 
