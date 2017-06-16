@@ -133,8 +133,8 @@ void blackout() {
 
 void equalizer(int vr) {
   //todo ajustar
-  int  limiteGraves = 50;
-  int  limiteMedios = 100;
+  int  limiteGraves = 150;
+  int  limiteMedios = 250;
 
   if (vr >= 0) {
     acenderLed(ledVerde1);

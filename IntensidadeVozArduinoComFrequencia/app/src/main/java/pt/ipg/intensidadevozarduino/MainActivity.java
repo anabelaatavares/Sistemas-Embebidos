@@ -535,10 +535,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
                 int position = CalculaIndice(freq_asociada);
                 statusText.setText(df1.format(freq_asociada));
+                int valor = Integer.parseInt(df1.format(freq_asociada));
+                new CospeFreqPorBT().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, valor);
+
             }
 
-
         }
+
     }
 
     // Algortimo que una vez detecta los armonicos establece cuales son los validos
@@ -1122,11 +1125,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     }
 
-    public void anotherActivity(View view) {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
-
     // Definicion de la clase del objeto Maximo
     class Maximo {
         int pos;// posicion
@@ -1147,6 +1145,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
             recordTask = new RecordAudio();
             recordTask.execute();
 
+        }
+    }
+
+    private class CospeFreqPorBT extends AsyncTask<Integer, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Integer... params) {
+            connectedThread.sendInt(params[0]);
+            return null;
         }
     }
 
