@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "D:\\Users\\josemanuelgil\\josema\\Android\\StudioWorkspace\\SpectrumAnalyzer\\app\\build\\intermediates\\res\\merged\\debug\\layout\\graficas.xml",
+        "source": "D:\\Users\\josemanuelgil\\josema\\Android\\StudioWorkspace\\SpectrumAnalyzer\\app\\src\\main\\res\\layout\\graficas.xml"
+    },
+    {
+        "merged": "D:\\Users\\anabe\\Downloads\\FFTSpectralAnalyzer-master\\app\\build\\intermediates\\res\\merged\\debug\\layout\\graficas.xml",
+        "source": "D:\\Users\\anabe\\Downloads\\FFTSpectralAnalyzer-master\\app\\src\\main\\res\\layout\\graficas.xml"
+    },
+    {
+        "merged": "D:\\Users\\josemanuelgil\\josema\\GitHub\\FFTSpectralAnalyzer\\app\\build\\intermediates\\res\\merged\\debug\\layout\\graficas.xml",
+        "source": "D:\\Users\\josemanuelgil\\josema\\GitHub\\FFTSpectralAnalyzer\\app\\src\\main\\res\\layout\\graficas.xml"
+    }
+]
