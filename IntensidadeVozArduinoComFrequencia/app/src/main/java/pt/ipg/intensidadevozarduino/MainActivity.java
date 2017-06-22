@@ -32,6 +32,8 @@ import java.util.UUID;
 
 import fftpack.RealDoubleFFT;
 
+import static java.sql.DriverManager.println;
+
 public class MainActivity extends Activity implements View.OnClickListener {
 
     BluetoothAdapter bluetoothAdapter = null; // Objeto para o bluetooth do Android.
@@ -60,13 +62,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
     // ID único para a ligação socket.
     UUID uuid = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
 
-    //// handler
+    //// ler estado botoes
+    InputStream mmInStream = null;
     final int ESPERA32 = 0;
-    final int RECEIVE_MESSAGE = 1;        // Status  for Handler
+    final int RECEIVE_MESSAGE = 1;
     int contador = 0;
     byte[] bytesRecebidos = new byte[5];
-    Handler bluetoothIn;
     int estado = ESPERA32;
+    int modo = 0;
 
     // Objeto que permite vincular con las preferencias seleccionadas
     SharedPreferences prefs;
@@ -212,44 +215,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
             startActivityForResult(enableBtIntent, REQUEST_CODE_ENABLE_BT);
         }
 
-        //ler dados enviados pelo arduino
-        bluetoothIn = new Handler() {
-            public void handleMessage(android.os.Message msg) {
-                byte[] bytesTemp = (byte[]) msg.obj;
-                for (int i = 0; i < bytesTemp.length; i++) {
-
-                    switch (estado) {
-                        case ESPERA32:
-                            if (bytesTemp[i] == 32) {
-                                estado = RECEIVE_MESSAGE;
-                                contador = 0;
-                            }
-                            break;
-                        case RECEIVE_MESSAGE:                                                   // if receive massage
-                            bytesRecebidos[contador++] = bytesTemp[i];
-                            if (contador == 2) {
-                                estado = ESPERA32;
-                                int valorModo = bytesRecebidos[0] + (bytesRecebidos[1] << 8);
-                                tv_modo.setText("" + valorModo);
-                            }
-                    }
-                }
-
-
-                        /*String strIncom = new String(bytesTemp, 0, msg.arg1);                 // create string from bytes array
-                        StringBuilder sb = new StringBuilder();
-                        sb.append(strIncom);                                                // append string
-                        int endOfLineIndex = sb.indexOf("\r\n");                            // determine the end-of-line
-                        if (endOfLineIndex > 0) {                                            // if end-of-line,
-                            String sbprint = sb.substring(0, endOfLineIndex);               // extract string
-                            sb.delete(0, sb.length());                                      // and clear
-                            tv_modo.setText("Data from Arduino: " + sbprint);            // update TextView
-                        }
-                        //Log.d(TAG, "...String:"+ sb.toString() +  "Byte:" + msg.arg1 + "...");
-                        break;*/
-
-            }
-        };
     }
 
     // Função para receber as respostas das activities chamadas via intents.
@@ -324,7 +289,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     // ************************************
     private class ConnectedThread extends Thread {
         private final BluetoothSocket mmSocket;
-        private final InputStream mmInStream;
+
         private final OutputStream mmOutStream;
 
         public ConnectedThread(BluetoothSocket socket) {
@@ -345,38 +310,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }
 
         public void run() {
-            /*
-            byte[] buffer = new byte[1024];  // buffer store for the stream
-            int bytes; // number of bytes returned from read()
-
-
-            // Keep listening to the InputStream until an exception occurs
-            while (true) {
-                try {
-                    // Read from the InputStream
-                    bytes = mmInStream.read(buffer);
-                    // Send the obtained bytes to the UI activity
-                    String data = new String(buffer, 0, bytes);
-                    handler.obtainMessage(MESSAGE_READ, bytes, -1, data)
-                            .sendToTarget();
-                } catch (IOException e) {
-                    break;
-                }
-            }
-            */
-            byte[] buffer = new byte[5];  // buffer store for the stream
-            int bytes; // bytes returned from read()
-
-            // Keep listening to the InputStream until an exception occurs
-            while (true) {
-                try {
-                    // Read from the InputStream
-                    bytes = mmInStream.read(buffer);        // Get number of bytes and message in "buffer"
-                    bluetoothIn.obtainMessage(RECEIVE_MESSAGE, bytes, -1, buffer).sendToTarget();     // Send to message queue Handler
-                } catch (IOException e) {
-                    break;
-                }
-            }
 
         }
 
@@ -593,6 +526,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 statusText.setText(df1.format(freq_asociada));
                 int valor = Integer.parseInt(df1.format(freq_asociada));
                 new CospeFreqPorBT().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, valor);
+                new ChupaValorBT().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
             }
 
@@ -765,7 +699,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         // Escala cromatica y los valores numericos de las notas como acordes
         /* F# = [0,4,7]  = [F#,Bb,C#]
-    	 * G  = [1,5,8]  = [G,B,D]
+         * G  = [1,5,8]  = [G,B,D]
     	 * G# = [2,6,9]  = [G#,C,Eb]
     	 * A  = [3,7,10] = [A,C#,E]
     	 * Bb = [4,8,11] = [Bb,D,F]
@@ -1166,8 +1100,69 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         @Override
         protected Void doInBackground(Integer... params) {
-            connectedThread.sendInt(params[0]);
+            int freq = params[0];
+            int  limiteGraves = 150;
+            int  limiteMedios = 250;
+
+            if (modo == 0) {
+                connectedThread.sendInt(freq);
+            } else if (modo == 10) {
+                if (freq < limiteGraves) connectedThread.sendInt(freq);
+            } else if (modo == 20) {
+                if (freq > limiteGraves && freq < limiteMedios) connectedThread.sendInt(freq);
+            } else if (modo == 30) {
+                if (freq > limiteMedios) connectedThread.sendInt(freq);
+            }
+
             return null;
+        }
+    }
+
+    private class ChupaValorBT extends AsyncTask<Void, Void, Integer> {
+
+        byte[] bytesTemp = new byte[100];
+
+        @Override
+        protected Integer doInBackground(Void... params) {
+
+            try {
+                if (mmInStream.available() > 0)
+                    mmInStream.read(bytesTemp);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            if (bytesTemp != null) {
+
+                for (int i = 0; i < bytesTemp.length; i++) {
+
+                    switch (estado) {
+                        case ESPERA32:
+                            if (bytesTemp[i] == 32) {
+                                estado = RECEIVE_MESSAGE;
+                                contador = 0;
+                            }
+                            break;
+                        case RECEIVE_MESSAGE:
+                            bytesRecebidos[contador++] = bytesTemp[i];
+                            if (contador == 2) {
+                                estado = ESPERA32;
+                                int inte = bytesRecebidos[0] + (bytesRecebidos[1] << 8);
+                                return Integer.valueOf(inte);
+                            }
+                            break;
+                    }
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Integer integer) {
+            if (integer != null) {
+                tv_modo.setText(String.valueOf(integer));
+                modo = integer;
+            }
         }
     }
 
