@@ -11,7 +11,6 @@ import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
 import android.os.AsyncTask;
-import android.os.Handler;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
@@ -31,8 +30,6 @@ import java.util.Locale;
 import java.util.UUID;
 
 import fftpack.RealDoubleFFT;
-
-import static java.sql.DriverManager.println;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
@@ -64,11 +61,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     //// ler estado botoes
     InputStream mmInStream = null;
-    final int ESPERA32 = 0;
+    final int ESPERA52 = 0;
     final int RECEIVE_MESSAGE = 1;
     int contador = 0;
     byte[] bytesRecebidos = new byte[5];
-    int estado = ESPERA32;
+    int estado = ESPERA52;
     int modo = 0;
 
     // Objeto que permite vincular con las preferencias seleccionadas
@@ -325,7 +322,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         public void sendInt(int dataToSend) {
             byte[] buffer = intToByteArray(dataToSend);
-            byte flag = 32;
+            byte flag = 52;
             try {
                 mmOutStream.write(flag);
                 mmOutStream.write(buffer);
@@ -1137,8 +1134,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 for (int i = 0; i < bytesTemp.length; i++) {
 
                     switch (estado) {
-                        case ESPERA32:
-                            if (bytesTemp[i] == 32) {
+                        case ESPERA52:
+                            if (bytesTemp[i] == 52) {
                                 estado = RECEIVE_MESSAGE;
                                 contador = 0;
                             }
@@ -1146,7 +1143,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                         case RECEIVE_MESSAGE:
                             bytesRecebidos[contador++] = bytesTemp[i];
                             if (contador == 2) {
-                                estado = ESPERA32;
+                                estado = ESPERA52;
                                 int inte = bytesRecebidos[0] + (bytesRecebidos[1] << 8);
                                 return Integer.valueOf(inte);
                             }
@@ -1160,7 +1157,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         @Override
         protected void onPostExecute(Integer integer) {
             if (integer != null) {
-                tv_modo.setText(String.valueOf(integer));
+                tv_modo.setText("Modo: " + integer);
                 modo = integer;
             }
         }

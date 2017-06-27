@@ -1,4 +1,4 @@
-byte inicio = 32;
+byte inicio = 52;
 int modo = 0, modoAtual = 1;
 long tempoAtual, tempoInicio;
 int botaoGraves = 13;//cabo branco
@@ -14,7 +14,7 @@ int ledAmarelo3 = 3;
 int ledVermelho1 = 2;
 int ledVermelho2 = 9;
 long valorRecebido;
-#define ESPERA32 0
+#define ESPERA52 0
 #define ESPERADADOS 1
 
 
@@ -89,11 +89,11 @@ void apagarLed(int varLed) {
 void abreLatas(int mByte) {
   byte bytesRecebidos[20];
   static int i = 0;
-  static boolean estado = ESPERA32;
+  static boolean estado = ESPERA52;
 
   switch (estado) {
-    case ESPERA32:
-      if (mByte == 32) {
+    case ESPERA52:
+      if (mByte == inicio) {
         estado = ESPERADADOS;
         i = 0;
       }
@@ -113,7 +113,7 @@ void abreLatas(int mByte) {
           blackout();
           equalizer(valorRecebido);
         }
-        estado = ESPERA32;
+        estado = ESPERA52;
       }
       break;
   }
