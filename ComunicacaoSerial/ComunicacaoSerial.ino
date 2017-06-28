@@ -43,17 +43,7 @@ void loop() {
     int mByte = Serial1.read();
     abreLatas(mByte);
   }
-  //
-  //  // read from port 0, send to port 1:
-  //  if (Serial.available()) {
-  //    int inByte = Serial.read();
-  //    Serial1.write(inByte);
-  //  }
 
-  tempoAtual = millis();
-
-  //if (tempoAtual - tempoInicio > 100) {
-  //tempoInicio = millis();
   estadoBotaoGraves = digitalRead(botaoGraves);
   estadoBotaoMedios = digitalRead(botaoMedios);
   estadoBotaoAgudos = digitalRead(botaoAgudos);
@@ -75,7 +65,6 @@ void loop() {
     Serial1.write(inicio);
     Serial1.write((char*) &modoAtual, 2);
   }
-  //}
 }
 
 void acenderLed(int varLed) {
@@ -109,7 +98,7 @@ void abreLatas(int mByte) {
         for (int i = 0; i < 4; i++) {
           soma += bytesRecebidos[i];
         }
-        if (soma == checksum) {          
+        if (soma == checksum) {
           blackout();
           equalizer(valorRecebido);
         }
