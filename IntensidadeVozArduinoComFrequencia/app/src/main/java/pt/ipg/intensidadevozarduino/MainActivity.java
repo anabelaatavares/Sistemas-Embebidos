@@ -523,7 +523,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 statusText.setText(df1.format(freq_asociada));
                 int valor = Integer.parseInt(df1.format(freq_asociada));
                 new CospeFreqPorBT().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, valor);
-                new ChupaValorBT().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                new PuxaModoPorBT().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
             }
 
@@ -1115,7 +1115,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }
     }
 
-    private class ChupaValorBT extends AsyncTask<Void, Void, Integer> {
+    private class PuxaModoPorBT extends AsyncTask<Void, Void, Integer> {
 
         byte[] bytesTemp = new byte[100];
 
@@ -1144,8 +1144,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
                             bytesRecebidos[contador++] = bytesTemp[i];
                             if (contador == 2) {
                                 estado = ESPERA52;
-                                int inte = bytesRecebidos[0] + (bytesRecebidos[1] << 8);
-                                return Integer.valueOf(inte);
+                                int integer = bytesRecebidos[0] + (bytesRecebidos[1] << 8);
+                                return Integer.valueOf(integer);
                             }
                             break;
                     }
