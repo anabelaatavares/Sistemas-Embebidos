@@ -1130,9 +1130,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             }
 
             if (bytesTemp != null) {
-
                 for (int i = 0; i < bytesTemp.length; i++) {
-
                     switch (estado) {
                         case ESPERA52:
                             if (bytesTemp[i] == 52) {
